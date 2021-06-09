@@ -586,7 +586,8 @@ export function makeServer<E = unknown>(options: ServerOptions<E>): Server<E> {
             return;
           }
           case MessageType.Ping: {
-            await socket.send(stringifyMessage({ type: MessageType.Pong }));
+            const payload = message.payload;
+            await socket.send(stringifyMessage(payload? { type: MessageType.Pong, payload } : { type: MessageType.Pong }));
             return;
           }
           case MessageType.Pong:
